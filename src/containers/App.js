@@ -4,13 +4,16 @@ import SearchBox from '../components/SearchBox';
 import ScrollBar from '../components/ScrollBar';
 import ErrorBoundry from '../components/ErrorBoundry';
 import { useState, useEffect } from 'react';
+import {setSearchField} from '../actions';
 
 function App(props) {
+    
 
     const [robots, setRobots] = useState([]);
     const [searchField, setSearchField] = useState('');
 
     useEffect(() => {
+        console.log(props);
         fetch("http://jsonplaceholder.typicode.com/users")
             .then(response => response.json())
             .then(users => setRobots(users));
