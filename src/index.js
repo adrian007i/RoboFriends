@@ -5,7 +5,7 @@ import './index.css';
 import reportWebVitals from './reportWebVitals';
 import App from './containers/App';
 
-import {Provider, connect} from 'react-redux';
+import {Provider} from 'react-redux';
 import {createStore} from 'redux';
 import {searchRobots} from './reducers'
 

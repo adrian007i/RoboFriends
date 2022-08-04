@@ -1,29 +1,36 @@
 // import { robots } from './robots.js';
+import { useState, useEffect } from 'react';
+import { connect } from 'react-redux';
+
 import CardList from '../components/CardList';
 import SearchBox from '../components/SearchBox';
 import ScrollBar from '../components/ScrollBar';
 import ErrorBoundry from '../components/ErrorBoundry';
-import { useState, useEffect } from 'react';
-import {setSearchField} from '../actions';
+import { setSearchField } from '../actions';
+// test
+const mapStateToProps = state => {
+    return {
+        searchField: state.searchRobots.searchField
+    }
+}
+
+const matchDispatchToProps = dispatch => {
+    return {
+        onSearchChange: (event) => dispatch(setSearchField(event.target.value))
+    }
+}
 
 function App(props) {
-    
+
 
     const [robots, setRobots] = useState([]);
-    const [searchField, setSearchField] = useState('');
 
     useEffect(() => {
         console.log(props);
-        fetch("http://jsonplaceholder.typicode.com/users")
-            .then(response => response.json())
-            .then(users => setRobots(users));
+        fetch("http://jsonplaceholder.typicode.com/users").then(response => response.json()).then(users => setRobots(users));
     }, []); // only runs if state in array changes
-
-
-    const onSearch =  (event)=> {
-        setSearchField(event.target.value);
-    }
-
+ 
+    const {searchField, onSearchChange} = props;
     const filterRobots = robots.filter(robot => {
         return robot.name.toLowerCase().includes(searchField.toLowerCase());
     });
@@ -31,10 +38,13 @@ function App(props) {
     if (robots === 0) {
         return <h1>Loading ...</h1>
     } else {
+
+        
+
         return (
             <div className="p2 tc">
                 <h1>RoboFriends</h1>
-                <SearchBox searchChange={onSearch} />
+                <SearchBox searchChange={onSearchChange} />
                 <ScrollBar>
                     <ErrorBoundry>
                         <CardList robots={filterRobots} />
@@ -47,5 +57,5 @@ function App(props) {
 
 
 
-export default App;
+export default connect(mapStateToProps, matchDispatchToProps)(App);
 
