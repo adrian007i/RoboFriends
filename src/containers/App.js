@@ -1,4 +1,3 @@
-// import { robots } from './robots.js';
 import { useState, useEffect } from 'react';
 import { connect } from 'react-redux';
 
@@ -8,10 +7,12 @@ import ScrollBar from '../components/ScrollBar';
 import ErrorBoundry from '../components/ErrorBoundry';
 import { setSearchField } from '../actions';
 
+// maps the search field to the properties of the component
 const mapStateToProps = state => { 
     return { searchField: state.searchField }
 }
 
+// allows us to use the onSearchChange function
 const matchDispatchToProps = dispatch => {
     return { onSearchChange: (event) => dispatch(setSearchField(event.target.value)) }
 }
