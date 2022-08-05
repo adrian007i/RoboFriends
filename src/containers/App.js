@@ -7,17 +7,13 @@ import SearchBox from '../components/SearchBox';
 import ScrollBar from '../components/ScrollBar';
 import ErrorBoundry from '../components/ErrorBoundry';
 import { setSearchField } from '../actions';
-// test
-const mapStateToProps = state => {
-    return {
-        searchField: state.searchRobots.searchField
-    }
+
+const mapStateToProps = state => { 
+    return { searchField: state.searchField }
 }
 
 const matchDispatchToProps = dispatch => {
-    return {
-        onSearchChange: (event) => dispatch(setSearchField(event.target.value))
-    }
+    return { onSearchChange: (event) => dispatch(setSearchField(event.target.value)) }
 }
 
 function App(props) {
@@ -26,7 +22,6 @@ function App(props) {
     const [robots, setRobots] = useState([]);
 
     useEffect(() => {
-        console.log(props);
         fetch("http://jsonplaceholder.typicode.com/users").then(response => response.json()).then(users => setRobots(users));
     }, []); // only runs if state in array changes
  
