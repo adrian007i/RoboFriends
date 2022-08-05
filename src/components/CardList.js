@@ -1,5 +1,9 @@
 import Card from './Card';
-
+/**
+ * 
+ * @param {array} robots 
+ * @returns JSX of a list of cards
+ */
 const CardList = ({ robots }) => {
     return (
         <div>
