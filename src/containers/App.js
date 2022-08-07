@@ -5,33 +5,40 @@ import CardList from '../components/CardList';
 import SearchBox from '../components/SearchBox';
 import ScrollBar from '../components/ScrollBar';
 import ErrorBoundry from '../components/ErrorBoundry';
-import { setSearchField } from '../actions';
+import { setSearchField , requestRobots} from '../actions'; 
 
 // maps the search field to the properties of the component
 const mapStateToProps = state => { 
-    return { searchField: state.searchField }
+    return { 
+        searchField: state.searchRobots.searchField ,
+        isPending: state.requestRobots.isPending,
+        error: state.requestRobots.error,
+        robots: state.requestRobots.robots
+    }
 }
 
 // allows us to use the onSearchChange function
 const matchDispatchToProps = dispatch => {
-    return { onSearchChange: (event) => dispatch(setSearchField(event.target.value)) }
+    return {
+        onSearchChange: (event) => dispatch(setSearchField(event.target.value)),
+        onRequestRobots: () => dispatch(requestRobots())
+    }
 }
 
 function App(props) {
 
-
-    const [robots, setRobots] = useState([]);
+    const {searchField, onSearchChange, robots, onRequestRobots,isPending} = props;
 
     useEffect(() => {
-        fetch("http://jsonplaceholder.typicode.com/users").then(response => response.json()).then(users => setRobots(users));
+        onRequestRobots()
     }, []); // only runs if state in array changes
  
-    const {searchField, onSearchChange} = props;
+    
     const filterRobots = robots.filter(robot => {
         return robot.name.toLowerCase().includes(searchField.toLowerCase());
     });
 
-    if (robots === 0) {
+    if (isPending) {
         return <h1>Loading ...</h1>
     } else {
 
